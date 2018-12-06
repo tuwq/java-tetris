@@ -16,16 +16,15 @@ public class FrameGame extends JFrame {
 	 * 获得显示器大小
 	 */
 	public FrameGame() {
-		this.setVisible(true);
 		this.setTitle("Java俄罗斯方块");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(1200, 700);
+		this.setSize(1168, 680);
 		this.setResizable(false);
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screen = toolkit.getScreenSize();
 		int x = (int) ((screen.getWidth() - this.getWidth())/2) ;
 		int y = (int) ((screen.getHeight() - this.getHeight())/2 - 32);
 		this.setLocation(x, y);
-		this.setContentPane(new PanelGame());
+		this.setContentPane(new PanelGame());;
 	}
 }
