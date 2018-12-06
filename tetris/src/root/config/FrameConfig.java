@@ -8,7 +8,7 @@ import org.dom4j.Element;
 import root.config.model.LayerConfigModel;
 
 /**
- * 读取窗口的配置
+ * 读取窗口和视图层的配置
  * @author tuwq
  */
 public class FrameConfig {
@@ -17,6 +17,8 @@ public class FrameConfig {
 	private int height;
 	private int windowSize;
 	private int padding;
+	private String title;
+	private int windowUp;
 	
 	private List<LayerConfigModel> layersConfigModelList;
 	
@@ -25,6 +27,8 @@ public class FrameConfig {
 		this.height = Integer.parseInt(frame.attributeValue("height"));
 		this.windowSize = Integer.parseInt(frame.attributeValue("windowSize"));
 		this.padding = Integer.parseInt(frame.attributeValue("padding"));
+		this.title = frame.attributeValue("title");
+		this.windowUp = Integer.parseInt(frame.attributeValue("windowUp"));
 		List<Element> layers = frame.elements("layer");
 		layersConfigModelList = new ArrayList<LayerConfigModel>();
 		for (Element layer : layers) {
@@ -54,6 +58,14 @@ public class FrameConfig {
 
 	public List<LayerConfigModel> getLayersConfigModelList() {
 		return layersConfigModelList;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public int getWindowUp() {
+		return windowUp;
 	}
 	
 }

@@ -5,15 +5,26 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import root.config.ConfigFactory;
+import root.config.GameConfigRead;
+import root.dto.GameDto;
+
 /**
  * 绘制窗口
  * @author tuwq
  */
 public abstract class Layer {
+	// 游戏数据对象
+	protected GameDto gameDto;
 	
-	protected static final int PADDING = 16;
+	protected static final int PADDING;
 	
-	protected static final int SIZE = 7;
+	protected static final int SIZE;
+	static {
+		GameConfigRead gameConfigRead = ConfigFactory.getGameConfigRead();
+		PADDING = gameConfigRead.getFrameConfig().getPadding();
+		SIZE = gameConfigRead.getFrameConfig().getWindowSize();
+	}
 	
 	private static Image WINDOW_IMG = new ImageIcon("graphics/default/window/window.png").getImage();
 	
@@ -57,6 +68,10 @@ public abstract class Layer {
 		g.drawImage(WINDOW_IMG, x + w - SIZE, y + h - SIZE, x + w, y + h, WINDOW_W - SIZE, WINDOW_H - SIZE, WINDOW_W, WINDOW_H, null);
 	}
 	
+	public void setGameDto(GameDto gameDto) {
+		this.gameDto = gameDto;
+	}
+	
 	public Layer() {
 		super();
 	}
@@ -92,6 +107,5 @@ public abstract class Layer {
 	public void setH(int h) {
 		this.h = h;
 	}
-	
 	
 }
