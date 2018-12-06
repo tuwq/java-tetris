@@ -5,6 +5,10 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+/**
+ * 主frame
+ * @author tuwq
+ */
 public class FrameGame extends JFrame {
 		
 	/**
