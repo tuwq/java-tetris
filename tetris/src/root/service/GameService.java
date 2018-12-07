@@ -15,7 +15,7 @@ public class GameService {
 	private GameDto gameDto;
 	// 随机数生成器
 	private Random random = new Random();
-	// 方块种类个数  + 1
+	// 方块种类个数  + 1(下标)
 	private static final int MAX_ACT_TYPE = 6;
 	
 	public GameService(GameDto gameDto) {
@@ -37,7 +37,8 @@ public class GameService {
 	 * 能否消行
 	 * 算分操作
 	 * 能否升级
-	 * 刷新一个新方块
+	 * 创建下一个方块
+	 * 随机生成再一下方块
 	 */
 	public void keyDown() {
 		if(this.gameDto.getGameAct().move(0, 1, this.gameDto.getGameMap())) {
@@ -48,7 +49,8 @@ public class GameService {
 		for (int i = 0; i < actPoints.length; i++) {
 			gameMap[actPoints[i].x][actPoints[i].y] = true;
 		}
-		this.gameDto.getGameAct().init(random.nextInt(MAX_ACT_TYPE));
+		this.gameDto.getGameAct().init(this.gameDto.getNext());
+		this.gameDto.setNext(random.nextInt(MAX_ACT_TYPE));
 	}
 
 	/**
@@ -63,6 +65,11 @@ public class GameService {
 	 */
 	public void keyRight() {
 		this.gameDto.getGameAct().move(1, 0, this.gameDto.getGameMap());
+	}
+
+	// TODO 测试等级提升
+	public void testLevelUp() {
+		this.gameDto.setNowLevel(this.gameDto.getNowLevel() + 1);
 	}
 	
 }

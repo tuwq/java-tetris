@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game>
 	<!-- 游戏主窗口的配置 -->
-	<frame title="Java俄罗斯方块" width="1168" height="680" windowSize="7" padding="16" windowUp="32">
+	<frame title="Java俄罗斯方块" width="1168" height="680" windowSize="7" padding="7" windowUp="32">
 		<!--视图层类的配置  -->
 		<layer className="root.ui.layer.LayerBackground" x="0" y="0" w="0" h="0"/>
 		<layer className="root.ui.layer.LayerDataBase" x="40" y="32" w="334" h="279"/>

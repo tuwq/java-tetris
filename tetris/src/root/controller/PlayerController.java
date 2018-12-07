@@ -25,17 +25,20 @@ public class PlayerController extends KeyAdapter {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
-			case KeyEvent.VK_UP: 
+			case KeyEvent.VK_W: 
 				this.gameListener.keyUp();
 				break;
-			case KeyEvent.VK_DOWN: 
+			case KeyEvent.VK_S: 
 				this.gameListener.keyDown();
 				break;
-			case KeyEvent.VK_LEFT: 
+			case KeyEvent.VK_A: 
 				this.gameListener.keyLeft();
 				break;
-			case KeyEvent.VK_RIGHT: 
+			case KeyEvent.VK_D: 
 				this.gameListener.keyRight();
+				break;
+			case KeyEvent.VK_UP:
+				this.gameListener.testLevelUp();
 				break;
 			default:
 		}

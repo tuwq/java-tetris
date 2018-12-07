@@ -52,5 +52,13 @@ public class GameListener {
 		this.gameService.keyRight();
 		this.panelGame.repaint();
 	}
+
+	/**
+	 * 测试等级提升
+	 */
+	public void testLevelUp() {
+		this.gameService.testLevelUp();
+		this.panelGame.repaint();
+	}
 	
 }

@@ -28,8 +28,21 @@ public abstract class Layer {
 	
 	private static Image WINDOW_IMG = new ImageIcon("graphics/default/window/window.png").getImage();
 	
-	protected static int WINDOW_W = WINDOW_IMG.getWidth(null);
-	protected static int WINDOW_H = WINDOW_IMG.getHeight(null);
+	private static int WINDOW_W = WINDOW_IMG.getWidth(null);
+	private static int WINDOW_H = WINDOW_IMG.getHeight(null);
+	
+	/**
+	 * 数字图片
+	 */
+	private static final Image IMG_NUMBER = new ImageIcon("graphics/default/string/num.png").getImage();
+	/**
+	 * 数字图片的切片宽度
+	 */
+	protected static final int IMG_NUMBER_W = IMG_NUMBER.getWidth(null) / 10;
+	/**
+	 * 数字图片的切片高度
+	 */
+	protected static final int IMG_NUMBER_H = IMG_NUMBER.getHeight(null);
 	
 	protected int x;
 	
@@ -45,6 +58,33 @@ public abstract class Layer {
 		this.w = w;
 		this.h = h;
 	}
+	
+	/**
+	 * 显示数字
+	 * 把num每一位取出
+	 * 左对齐数字,忽略多余位数
+	 * @param x 图片左上角x坐标
+	 * @param y 图片左上角y坐标
+	 * @param num 要显示的数字
+	 * @param maxBit 最大数字的位数
+	 * @param g 画笔对象
+	 */
+	protected void drawNumber(int x, int y, int num, int maxBit, Graphics g) {
+		String number = Integer.toString(num);
+		for (int i = 0; i < maxBit; i++) {
+			if (maxBit - i <= number.length()) {
+				int idx = i - maxBit + number.length();
+				int bit = number.charAt(idx) - '0';
+				g.drawImage(IMG_NUMBER, 
+						this.x + x + IMG_NUMBER_W * i, 
+						this.y + y, 
+						this.x + x + IMG_NUMBER_W * (i + 1), 
+						this.y + y + IMG_NUMBER_H,
+						bit * IMG_NUMBER_W, 0, (bit + 1) * IMG_NUMBER_W, IMG_NUMBER_H, null);
+			}
+		}
+	}
+	
 	/**
 	 * 由子类具体绘制
 	 * @param g

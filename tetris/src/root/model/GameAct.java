@@ -93,6 +93,7 @@ public class GameAct {
 	 * A.y = o.y - o.x + B.x
 	 */
 	public void round(boolean[][] gameMap) {
+		// TODO 配置
 		if (this.typeCode == 4) {
 			return;
 		}
