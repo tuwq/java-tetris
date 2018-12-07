@@ -23,17 +23,21 @@ public class GameService {
 	 * 方向键上
 	 */
 	public void keyUp() {
-		if (this.canMove(0, -1)) {
-			this.gameDto.getGameAct().move(0, -1);
-		}
+		this.gameDto.getGameAct().round();
 	}
 
 	/**
 	 * 方向键下
+	 * 落地坐标系添入游戏地图
+	 * 立刻下落
 	 */
 	public void keyDown() {
-		if (this.canMove(0, 1)) {
-			this.gameDto.getGameAct().move(0, 1);
+		if(!this.gameDto.getGameAct().move(0, 1)) {
+			boolean[][] gameMap = this.gameDto.getGameMap();
+			Point[] actPoints = this.gameDto.getGameAct().getActPoints();
+			for (int i = 0; i < actPoints.length; i++) {
+				gameMap[actPoints[i].x][actPoints[i].y] = true;
+			}
 		}
 	}
 
@@ -41,38 +45,14 @@ public class GameService {
 	 * 方向键左
 	 */
 	public void keyLeft() {
-		if (this.canMove(-1, 0)) {
-			this.gameDto.getGameAct().move(-1, 0);
-		}
+		this.gameDto.getGameAct().move(-1, 0);
 	}
 
 	/**
 	 * 方向键右
 	 */
 	public void keyRight() {
-		if (this.canMove(1, 0)) {
-			this.gameDto.getGameAct().move(1, 0);
-		}
+		this.gameDto.getGameAct().move(1, 0);
 	}
 	
-	/**
-	 * 边界判定
-	 * 获取移动后的坐标
-	 * 循环判断是否在地图范围内  
-	 * newX < 0 || newX > 9 || newY < 0 || newY > 17
-	 * @param moveX
-	 * @param moveY
-	 * @return
-	 */
-	private boolean canMove(int moveX, int moveY) {
-		Point[] nowPoints = this.gameDto.getGameAct().getActPoints();
-		for (int i = 0; i < nowPoints.length; i++) {
-			int newX = nowPoints[i].x + moveX;
-			int newY = nowPoints[i].y + moveY;
-			if (newX < 0 || newX > 9 || newY < 0 || newY > 17) {
-				return false;
-			}
-		}
-		return true;
-	}
 }
