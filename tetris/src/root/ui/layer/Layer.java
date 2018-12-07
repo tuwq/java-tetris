@@ -1,5 +1,7 @@
 package root.ui.layer;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -8,6 +10,7 @@ import javax.swing.ImageIcon;
 import root.config.ConfigFactory;
 import root.config.GameConfigRead;
 import root.dto.GameDto;
+import root.ui.Img;
 
 /**
  * 绘制窗口
@@ -26,23 +29,24 @@ public abstract class Layer {
 		SIZE = gameConfigRead.getFrameConfig().getWindowSize();
 	}
 	
-	private static Image WINDOW_IMG = new ImageIcon("graphics/default/window/window.png").getImage();
 	
-	private static int WINDOW_W = WINDOW_IMG.getWidth(null);
-	private static int WINDOW_H = WINDOW_IMG.getHeight(null);
 	
-	/**
-	 * 数字图片
-	 */
-	private static final Image IMG_NUMBER = new ImageIcon("graphics/default/string/num.png").getImage();
+	private static int WINDOW_W = Img.WINDOW.getWidth(null);
+	private static int WINDOW_H = Img.WINDOW.getHeight(null);
+	
 	/**
 	 * 数字图片的切片宽度
 	 */
-	protected static final int IMG_NUMBER_W = IMG_NUMBER.getWidth(null) / 10;
+	protected static final int IMG_NUMBER_W = Img.NUMBER.getWidth(null) / 10;
 	/**
 	 * 数字图片的切片高度
 	 */
-	protected static final int IMG_NUMBER_H = IMG_NUMBER.getHeight(null);
+	protected static final int IMG_NUMBER_H = Img.NUMBER.getHeight(null);
+	
+	private static final int IMG_RECT_H = Img.RECT.getHeight(null);
+	private static final int IMG_RECT_W = Img.RECT.getWidth(null);
+	private static final Font DEF_FONT = new Font("黑体", Font.BOLD, 20);
+	// this.expW = 
 	
 	protected int x;
 	
@@ -57,6 +61,56 @@ public abstract class Layer {
 		this.y = y;
 		this.w = w;
 		this.h = h;
+	}
+	
+	/**
+	 * 正中绘图
+	 * @param img
+	 * @param g
+	 */
+	protected void drawImageAtCenter(Image img, Graphics g) {
+		int imgW = img.getWidth(null);
+		int imgH = img.getHeight(null);
+		int imgX = this.x + (this.w - imgW >> 1);
+		int imgY = this.y + (this.h - imgH >> 1);
+		g.drawImage(img, imgX, imgY, null);
+	}
+	
+	/**
+	 * 绘制经验槽
+	 * @param expW 值槽总宽度
+	 * @param expY 值槽的y坐标
+	 * @param title 值槽左内容
+	 * @param number 值槽右内容
+	 * @param value 当前值
+	 * @param maxValue 最大值
+	 * @param g 画笔
+	 */
+	protected void drawRect(int expW, int expY, String title, String number, double value, double maxValue, Graphics g) {
+		int rect_x = this.x + (PADDING << 1);
+		int rect_y = this.y + expY;
+		// 绘制背景
+		g.setColor(Color.BLACK);
+		g.fillRect(rect_x, rect_y, expW, IMG_RECT_H + 4);
+		g.setColor(Color.white);
+		g.fillRect(rect_x + 1, rect_y + 1, expW - 2, IMG_RECT_H + 2);
+		g.setColor(Color.BLACK);
+		g.fillRect(rect_x + 2, rect_y + 2, expW - 4, IMG_RECT_H);
+		// 绘制值槽
+		double percentage = value / maxValue;
+		int w = (int)((percentage * (expW - 4 )));
+		int subIdx = (int)(percentage * IMG_RECT_W);
+		g.drawImage(Img.RECT,
+				rect_x + 2, rect_y + 2,
+				rect_x + 2 + w, rect_y + 2 + IMG_RECT_H, 
+				subIdx, 0, subIdx + 1, IMG_RECT_H,
+				null);
+		g.setColor(Color.WHITE);
+		g.setFont(DEF_FONT);
+		g.drawString(title, rect_x + 4, rect_y + 22);
+		if (number != null) {
+			
+		}
 	}
 	
 	/**
@@ -75,7 +129,7 @@ public abstract class Layer {
 			if (maxBit - i <= number.length()) {
 				int idx = i - maxBit + number.length();
 				int bit = number.charAt(idx) - '0';
-				g.drawImage(IMG_NUMBER, 
+				g.drawImage(Img.NUMBER, 
 						this.x + x + IMG_NUMBER_W * i, 
 						this.y + y, 
 						this.x + x + IMG_NUMBER_W * (i + 1), 
@@ -95,27 +149,23 @@ public abstract class Layer {
 	 * @param g
 	 */
 	protected void createWindow(Graphics g) {
-		g.drawImage(WINDOW_IMG, x, y, x + SIZE, y + SIZE, 0, 0, SIZE, SIZE, null);
-		g.drawImage(WINDOW_IMG, x + SIZE, y, x + w - SIZE, y + SIZE, SIZE, 0, WINDOW_W -SIZE, SIZE, null);
-		g.drawImage(WINDOW_IMG, x + w - SIZE, y, x + w, y + SIZE, WINDOW_W - SIZE, 0, WINDOW_W, SIZE, null);
+		g.drawImage(Img.WINDOW, x, y, x + SIZE, y + SIZE, 0, 0, SIZE, SIZE, null);
+		g.drawImage(Img.WINDOW, x + SIZE, y, x + w - SIZE, y + SIZE, SIZE, 0, WINDOW_W -SIZE, SIZE, null);
+		g.drawImage(Img.WINDOW, x + w - SIZE, y, x + w, y + SIZE, WINDOW_W - SIZE, 0, WINDOW_W, SIZE, null);
 	
-		g.drawImage(WINDOW_IMG, x, y + SIZE, x + SIZE, y + h - SIZE, 0, SIZE, SIZE, WINDOW_H - SIZE, null);
-		g.drawImage(WINDOW_IMG, x + SIZE, y + SIZE, x + w - SIZE, y + h - SIZE, SIZE, SIZE, WINDOW_W - SIZE, WINDOW_H - SIZE, null);
-		g.drawImage(WINDOW_IMG, x + w - SIZE, y + SIZE, x + w, y + h - SIZE, WINDOW_W - SIZE, SIZE, WINDOW_W, WINDOW_H - SIZE, null);
+		g.drawImage(Img.WINDOW, x, y + SIZE, x + SIZE, y + h - SIZE, 0, SIZE, SIZE, WINDOW_H - SIZE, null);
+		g.drawImage(Img.WINDOW, x + SIZE, y + SIZE, x + w - SIZE, y + h - SIZE, SIZE, SIZE, WINDOW_W - SIZE, WINDOW_H - SIZE, null);
+		g.drawImage(Img.WINDOW, x + w - SIZE, y + SIZE, x + w, y + h - SIZE, WINDOW_W - SIZE, SIZE, WINDOW_W, WINDOW_H - SIZE, null);
 
-		g.drawImage(WINDOW_IMG, x, y + h - SIZE, x + SIZE, y + h, 0, WINDOW_H - SIZE, SIZE, WINDOW_H, null);
-		g.drawImage(WINDOW_IMG, x + SIZE, y + h - SIZE, x + w - SIZE, y + h, SIZE, WINDOW_H - SIZE, WINDOW_W - SIZE, WINDOW_H, null);
-		g.drawImage(WINDOW_IMG, x + w - SIZE, y + h - SIZE, x + w, y + h, WINDOW_W - SIZE, WINDOW_H - SIZE, WINDOW_W, WINDOW_H, null);
+		g.drawImage(Img.WINDOW, x, y + h - SIZE, x + SIZE, y + h, 0, WINDOW_H - SIZE, SIZE, WINDOW_H, null);
+		g.drawImage(Img.WINDOW, x + SIZE, y + h - SIZE, x + w - SIZE, y + h, SIZE, WINDOW_H - SIZE, WINDOW_W - SIZE, WINDOW_H, null);
+		g.drawImage(Img.WINDOW, x + w - SIZE, y + h - SIZE, x + w, y + h, WINDOW_W - SIZE, WINDOW_H - SIZE, WINDOW_W, WINDOW_H, null);
 	}
 	
 	public void setGameDto(GameDto gameDto) {
 		this.gameDto = gameDto;
 	}
 	
-	public Layer() {
-		super();
-	}
-
 	public int getX() {
 		return x;
 	}

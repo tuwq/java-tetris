@@ -69,7 +69,17 @@ public class GameService {
 
 	// TODO 测试等级提升
 	public void testLevelUp() {
-		this.gameDto.setNowLevel(this.gameDto.getNowLevel() + 1);
+		int point = this.gameDto.getNowPoint();
+		int rmline = this.gameDto.getNowRemoveLine();
+		int level = this.gameDto.getNowLevel();
+		point+=10;
+		rmline+=1;
+		if (rmline % 20 == 0) {
+			level += 1;
+		}
+		this.gameDto.setNowPoint(point);
+		this.gameDto.setNowLevel(level);
+		this.gameDto.setNowRemoveLine(rmline);
 	}
 	
 }

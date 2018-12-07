@@ -9,10 +9,9 @@ import java.util.Arrays;
 import javax.swing.ImageIcon;
 
 import root.model.GameAct;
+import root.ui.Img;
 
 public class LayerGame extends Layer {
-	
-	private static final Image ACT = new ImageIcon("graphics/default/game/rect.png").getImage();
 	
 	// private static int ACT_SIZE = 32;
 	private static final int ACT_SIZE_ROL = 5;
@@ -52,7 +51,7 @@ public class LayerGame extends Layer {
 	 * @param g
 	 */
 	private void drawActByPoint(int x, int y, int imgIdx, Graphics g) {
-		g.drawImage(ACT, 
+		g.drawImage(Img.ACT, 
 				this.x + (x << ACT_SIZE_ROL) + 7, 
 				this.y + (y << ACT_SIZE_ROL) + 7, 
 				this.x + (x + 1 << ACT_SIZE_ROL) + 7, 
@@ -60,23 +59,3 @@ public class LayerGame extends Layer {
 				imgIdx << ACT_SIZE_ROL, 0, (imgIdx + 1) << ACT_SIZE_ROL, 1 << ACT_SIZE_ROL, null);
 	}
 }
-/*g.drawImage(ACT, 
-		this.x + actPoints[i].x * ACT_SIZE + 7, 
-		this.y + actPoints[i].y * ACT_SIZE + 7, 
-		this.x + actPoints[i].x * ACT_SIZE + ACT_SIZE + 7, 
-		this.y + actPoints[i].y * ACT_SIZE + ACT_SIZE + 7,
-(typeCode + 1) * 32, 0, (typeCode + 1) * ACT_SIZE + ACT_SIZE, ACT_SIZE, null);*/
-
-/*boolean[][] gameMap = this.gameDto.getGameMap();
-for (int x = 0; x < gameMap.length; x++) {
-	for (int y = 0; y < gameMap[x].length; y++) {
-		if (gameMap[x][y]) {
-			g.drawImage(ACT, 
-					this.x + x * ACT_SIZE + 7, 
-					this.y + y * ACT_SIZE + 7, 
-					this.x + x * ACT_SIZE + ACT_SIZE + 7, 
-					this.y + y * ACT_SIZE + ACT_SIZE + 7,
-				0, 0, 32, 32, null);
-		}
-	}
-}*/

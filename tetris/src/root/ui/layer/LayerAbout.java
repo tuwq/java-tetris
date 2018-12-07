@@ -1,6 +1,11 @@
 package root.ui.layer;
 
 import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
+import root.ui.Img;
 
 public class LayerAbout extends Layer {
 	
@@ -10,5 +15,6 @@ public class LayerAbout extends Layer {
 	
 	public void paintWindow(Graphics g) {
 		this.createWindow(g);
+		this.drawImageAtCenter(Img.ABOUT, g);
 	}
 }

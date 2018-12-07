@@ -5,9 +5,9 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import root.ui.Img;
+
 public class LayerDisk extends Layer {
-	
-	private static final Image IMG_DISK = new ImageIcon("graphics/default/string/disk.png").getImage();
 	
 	public LayerDisk(int x, int y, int w, int h) {
 		super(x, y, w, h);
@@ -15,7 +15,7 @@ public class LayerDisk extends Layer {
 	
 	public void paintWindow(Graphics g) {
 		this.createWindow(g);
-		g.drawImage(IMG_DISK, this.x + PADDING, this.y + PADDING, null);
+		g.drawImage(Img.DISK, this.x + PADDING, this.y + PADDING, null);
 	}
 	
 }
