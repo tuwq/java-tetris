@@ -12,6 +12,16 @@
 		<layer className="root.ui.layer.LayerLevel" x="964" y="188" w="158" h="116"/>
 		<layer className="root.ui.layer.LayerPoint" x="788" y="336" w="334" h="160"/>
 		<layer className="root.ui.layer.LayerAbout" x="788" y="528" w="334" h="94"/>
+		
+		<!-- <layer className="root.ui.layer.LayerBackground" x="0" y="0" w="0" h="0"/>
+		<layer className="root.ui.layer.LayerDataBase" x="40" y="32" w="344" h="279"/>
+		<layer className="root.ui.layer.LayerDisk" x="40" y="343" w="334" h="279"/>
+		<layer className="root.ui.layer.LayerGame" x="414" y="32" w="334" h="590"/> 
+		<layer className="root.ui.layer.LayerButton" x="788" y="32" w="334" h="124"/>
+		<layer className="root.ui.layer.LayerNext" x="788" y="188" w="176" h="116"/>
+		<layer className="root.ui.layer.LayerLevel" x="964" y="188" w="158" h="116"/>
+		<layer className="root.ui.layer.LayerPoint" x="788" y="336" w="334" h="160"/>
+		<layer className="root.ui.layer.LayerAbout" x="788" y="528" w="334" h="94"/> -->
 	</frame>
 	<system>
 		

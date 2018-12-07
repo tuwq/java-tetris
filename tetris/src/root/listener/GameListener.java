@@ -20,9 +20,36 @@ public class GameListener {
 		this.panelGame = panelGame;
 		this.gameService = gameService;
 	}
+	
+	/**
+	 * 方向键上
+	 */
+	public void keyUp() {
+		this.gameService.keyUp();
+		this.panelGame.repaint();
+	}
 
-	public void test(int keyCode) {
-		this.gameService.gameTest(keyCode);
+	/**
+	 * 方向键下
+	 */
+	public void keyDown() {
+		this.gameService.keyDown();
+		this.panelGame.repaint();
+	}
+
+	/**
+	 * 方向键左
+	 */
+	public void keyLeft() {
+		this.gameService.keyLeft();
+		this.panelGame.repaint();
+	}
+
+	/**
+	 * 方向键右
+	 */
+	public void keyRight() {
+		this.gameService.keyRight();
 		this.panelGame.repaint();
 	}
 	
