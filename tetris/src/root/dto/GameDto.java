@@ -25,7 +25,7 @@ public class GameDto {
 	 */
 	private GameAct gameAct;
 	/**
-	 * 下一个方块的id
+	 * 下一个方块的code
 	 */
 	private int next;
 	/**

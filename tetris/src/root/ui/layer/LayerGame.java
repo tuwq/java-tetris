@@ -8,6 +8,8 @@ import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 
+import root.model.GameAct;
+
 public class LayerGame extends Layer {
 	
 	private static Image ACT = new ImageIcon("graphics/default/game/rect.png").getImage();
@@ -21,11 +23,11 @@ public class LayerGame extends Layer {
 	/**
 	 * 打印方块
 	 * 打印地图
+	 * 根据方块编号渲染颜色
 	 */
 	public void paintWindow(Graphics g) {
 		this.createWindow(g);
 		Point[] actPoints = this.gameDto.getGameAct().getActPoints();
-		
 		for (int i = 0; i < actPoints.length; i++) {
 			g.drawImage(ACT, 
 						this.x + actPoints[i].x * ACT_SIZE + 7, 
