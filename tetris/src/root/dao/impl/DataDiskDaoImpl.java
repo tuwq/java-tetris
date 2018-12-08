@@ -21,6 +21,9 @@ public class DataDiskDaoImpl implements DataDao {
 
 	private static final String FILE_PATH = "data/diskRecode.dat"; 
 	
+	/**
+	 * 读取玩家记录
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PlayerDto> loadData() {
@@ -38,11 +41,17 @@ public class DataDiskDaoImpl implements DataDao {
 				e.printStackTrace();
 			}
 		}
-		return players;
+		return players == null ? new ArrayList() : players;
 	}
 
+	/**
+	 * 保存玩家记录
+	 */
 	@Override
-	public void saveData(List<PlayerDto> players) {
+	public void saveData(PlayerDto playerDto) {
+		// List<PlayerDto> players = new ArrayList();
+		List<PlayerDto> players = this.loadData();
+		players.add(playerDto);
 		ObjectOutputStream oos = null;
 		try {
 			oos = new ObjectOutputStream(new FileOutputStream(new File(FILE_PATH)));
@@ -57,20 +66,5 @@ public class DataDiskDaoImpl implements DataDao {
 			}
 		}
 	}
-
-	public static void main(String[] args) throws FileNotFoundException, IOException {
-		DataDiskDaoImpl dataDiskDao = new DataDiskDaoImpl();
-		List<PlayerDto> players = new ArrayList<PlayerDto>();
-		/*players.add(new PlayerDto("汤姆", 213));
-		players.add(new PlayerDto("杰瑞", 221));
-		players.add(new PlayerDto("李华", 112));
-		players.add(new PlayerDto("韩梅梅", 121));*/
-		players.add(new PlayerDto("作者", 1203));
-		dataDiskDao.saveData(players);
-		System.out.println("保存完毕");
-		List<PlayerDto> dataFromDisk = dataDiskDao.loadData();
-		for (PlayerDto playerDto : dataFromDisk) {
-			System.out.println(playerDto.getName() + "::" + playerDto.getPoint());
-		}
-	}
+	
 }

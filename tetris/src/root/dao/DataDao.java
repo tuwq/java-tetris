@@ -19,5 +19,5 @@ public interface DataDao {
 	 * 存储数据
 	 * @param players
 	 */
-	void saveData(List<PlayerDto> players);
+	void saveData(PlayerDto playerDto);
 }

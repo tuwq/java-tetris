@@ -2,6 +2,7 @@ package root.listener;
 
 import root.dao.DataDao;
 import root.dao.impl.DataTestDao;
+import root.dao.impl.DataBaseDaoImpl;
 import root.dao.impl.DataDiskDaoImpl;
 import root.service.GameService;
 import root.ui.PanelGame;
@@ -22,15 +23,15 @@ public class GameListener {
 	private DataDao dataBaseDao;
 	// 数据访问-本地磁盘
 	private DataDao diskDao;
-	// 数据访问-测试
-	private DataDao dataTest;
+	
+	private boolean isOpen = false;
 	
 	public GameListener(PanelGame panelGame, GameService gameService) {
 		this.panelGame = panelGame;
 		this.gameService = gameService;
-		this.dataTest = new DataTestDao();
+		this.dataBaseDao = this.isOpen?new DataBaseDaoImpl():new DataTestDao();
 		this.diskDao = new DataDiskDaoImpl();
-		this.gameService.setDbRecode(this.dataTest.loadData());
+		this.gameService.setDbRecode(this.dataBaseDao.loadData());
 		this.gameService.setDiskRecode(this.diskDao.loadData());
 	}
 	

@@ -6,6 +6,10 @@ import java.util.List;
 import root.dao.DataDao;
 import root.dto.PlayerDto;
 
+/**
+ * 不连接数据库的数据
+ * @author tuwq
+ */
 public class DataTestDao implements DataDao {
 
 	@Override
@@ -20,7 +24,7 @@ public class DataTestDao implements DataDao {
 	}
 
 	@Override
-	public void saveData(List<PlayerDto> players) {
+	public void saveData(PlayerDto playerDto) {
 		
 	}
 
