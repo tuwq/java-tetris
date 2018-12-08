@@ -8,15 +8,15 @@ import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 
+import root.config.GameConfigRead;
 import root.model.GameAct;
 import root.ui.Img;
 
 public class LayerGame extends Layer {
 	
-	private static final int ACT_SIZE_ROL = 5;
-	private static final int LEFT_SIDE = 0;
-	// TODO
-	private static final int RIGHT_SIDE = 9;
+	private static final int ACT_SIZE_ROL = GameConfigRead.getFrameConfig().getSizeRol();
+	private static final int LEFT_SIDE = GameConfigRead.getSystemConfig().getMinX();
+	private static final int RIGHT_SIDE = GameConfigRead.getSystemConfig().getMaxX();
 	
 	public LayerGame(int x, int y, int w, int h) {
 		super(x, y, w, h);
@@ -68,8 +68,8 @@ public class LayerGame extends Layer {
 			rightX = p.x > rightX ? p.x : rightX;
 		}
 		g.drawImage(Img.Shadow, 
-				this.x + SIZE + (leftX << ACT_SIZE_ROL),
-				this.y + SIZE,
+				this.x + BORDER + (leftX << ACT_SIZE_ROL),
+				this.y + BORDER,
 				(rightX - leftX + 1) << ACT_SIZE_ROL,
 				this.h - (ACT_SIZE_ROL << 1), 
 				null);

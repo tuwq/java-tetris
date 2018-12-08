@@ -7,6 +7,7 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import root.config.GameConfigRead;
 import root.ui.Img;
 
 public class LayerPoint extends Layer {
@@ -14,8 +15,10 @@ public class LayerPoint extends Layer {
 	 * 分数最大位数
 	 */
 	private static final int POINT_BIT = 5;
-	
-	private static final int LEVEL_UP = 20;
+	/**
+	 * 升级所需消行数
+	 */
+	private static final int LEVEL_UP = GameConfigRead.getSystemConfig().getLevelUp();
 	
 	// 分数与消行x坐标
 	private int comX;

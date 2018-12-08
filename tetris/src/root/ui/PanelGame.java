@@ -18,7 +18,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import root.config.ConfigFactory;
+import root.config.FrameConfig;
 import root.config.GameConfigRead;
 import root.config.model.LayerConfigModel;
 import root.controller.PlayerController;
@@ -81,8 +81,8 @@ public class PanelGame extends JPanel {
 	 */
 	private void initLayers() {
 		try {
-			GameConfigRead gameConfigRead = ConfigFactory.getGameConfigRead();
-			List<LayerConfigModel> layersConfigModelList = gameConfigRead.getFrameConfig().getLayersConfigModelList();
+			FrameConfig frameConfig = GameConfigRead.getFrameConfig();
+			List<LayerConfigModel> layersConfigModelList = frameConfig.getLayersConfigModelList();
 			layers = new ArrayList<Layer>(layersConfigModelList.size());
 			for (LayerConfigModel layerConfigModel : layersConfigModelList) {
 				Class<?> c = Class.forName(layerConfigModel.getClassName());

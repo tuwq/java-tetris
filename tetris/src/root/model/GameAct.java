@@ -1,8 +1,9 @@
 package root.model;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.List;
+
+import root.config.GameConfigRead;
 
 /**
  * 游戏方块
@@ -19,23 +20,13 @@ public class GameAct {
 	 */
 	private int typeCode;
 	
-	private static int MIN_X = 0;
-	private static int MAX_X = 9;
-	private static int MIN_Y = 0;
-	private static int MAX_Y = 17;
+	private static final int MIN_X = GameConfigRead.getSystemConfig().getMinX();
+	private static final int MAX_X = GameConfigRead.getSystemConfig().getMaxX();
+	private static final int MIN_Y = GameConfigRead.getSystemConfig().getMinY();
+	private static final int MAX_Y = GameConfigRead.getSystemConfig().getMaxY();
 	
-	private static List<Point[]> TYPE_CONFIG;
-	
-	static {
-		TYPE_CONFIG = new ArrayList<Point[]>(7);
-		TYPE_CONFIG.add(new Point[]{new Point(4, 0), new Point(3, 0), new Point(5, 0), new Point(6, 0)});
-		TYPE_CONFIG.add(new Point[]{new Point(4, 0), new Point(3, 0), new Point(5, 0), new Point(4, 1)});
-		TYPE_CONFIG.add(new Point[]{new Point(4, 0), new Point(3, 0), new Point(5, 0), new Point(3, 1)});
-		TYPE_CONFIG.add(new Point[]{new Point(4, 0), new Point(5, 0), new Point(3, 1), new Point(4, 1)});
-		TYPE_CONFIG.add(new Point[]{new Point(4, 0), new Point(5, 0), new Point(4, 1), new Point(5, 1)});
-		TYPE_CONFIG.add(new Point[]{new Point(4, 0), new Point(3, 0), new Point(5, 0), new Point(5, 1)});
-		TYPE_CONFIG.add(new Point[]{new Point(4, 0), new Point(3, 0), new Point(4, 1), new Point(5, 1)});
-	}
+	private static final List<Point[]> TYPE_CONFIG = GameConfigRead.getSystemConfig().getRects();
+	private static final List<Boolean> TYPE_ROUND = GameConfigRead.getSystemConfig().getRectRounds();
 	
 	public GameAct(int typeCode) {
 		this.init(typeCode);
@@ -93,8 +84,7 @@ public class GameAct {
 	 * A.y = o.y - o.x + B.x
 	 */
 	public void round(boolean[][] gameMap) {
-		// TODO 配置
-		if (this.typeCode == 4) {
+		if (!TYPE_ROUND.get(this.typeCode)) {
 			return;
 		}
 		for (int i = 0; i < actPoints.length; i++) {

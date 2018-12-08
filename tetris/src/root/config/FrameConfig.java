@@ -13,22 +13,27 @@ import root.config.model.LayerConfigModel;
  */
 public class FrameConfig {
 
-	private int width;
-	private int height;
-	private int windowSize;
-	private int padding;
-	private String title;
-	private int windowUp;
+	private final int width;
+	private final int height;
+	private final int border;
+	private final int padding;
+	private final String title;
+	private final int windowUp;
+	private final int sizeRol;
+	// 游戏失败图片
+	private final int loseIdx;
 	
 	private List<LayerConfigModel> layersConfigModelList;
 	
 	public FrameConfig(Element frame) {
 		this.width = Integer.parseInt(frame.attributeValue("width"));
 		this.height = Integer.parseInt(frame.attributeValue("height"));
-		this.windowSize = Integer.parseInt(frame.attributeValue("windowSize"));
+		this.border = Integer.parseInt(frame.attributeValue("border"));
 		this.padding = Integer.parseInt(frame.attributeValue("padding"));
 		this.title = frame.attributeValue("title");
 		this.windowUp = Integer.parseInt(frame.attributeValue("windowUp"));
+		this.sizeRol = Integer.parseInt(frame.attributeValue("sizeRol"));
+		this.loseIdx = Integer.parseInt(frame.attributeValue("loseIdx"));
 		List<Element> layers = frame.elements("layer");
 		layersConfigModelList = new ArrayList<LayerConfigModel>();
 		for (Element layer : layers) {
@@ -48,8 +53,8 @@ public class FrameConfig {
 		return height;
 	}
 
-	public int getWindowSize() {
-		return windowSize;
+	public int getBorder() {
+		return border;
 	}
 
 	public int getPadding() {
@@ -66,6 +71,14 @@ public class FrameConfig {
 
 	public int getWindowUp() {
 		return windowUp;
+	}
+
+	public int getSizeRol() {
+		return sizeRol;
+	}
+
+	public int getLoseIdx() {
+		return loseIdx;
 	}
 	
 }

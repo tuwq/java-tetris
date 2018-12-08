@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import root.config.ConfigFactory;
+import root.config.FrameConfig;
 import root.config.GameConfigRead;
 
 /**
@@ -24,15 +24,15 @@ public class FrameGame extends JFrame {
 	 * 显示窗口
 	 */
 	public FrameGame(PanelGame panelGame) {
-		GameConfigRead gameConfigRead = ConfigFactory.getGameConfigRead();
-		this.setTitle(gameConfigRead.getFrameConfig().getTitle());
+		FrameConfig frameConfig = GameConfigRead.getFrameConfig();
+		this.setTitle(frameConfig.getTitle());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(gameConfigRead.getFrameConfig().getWidth(), gameConfigRead.getFrameConfig().getHeight());
+		this.setSize(frameConfig.getWidth(), frameConfig.getHeight());
 		this.setResizable(false);
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screen = toolkit.getScreenSize();
 		int x = screen.width - this.getWidth() >> 1 ;
-		int y = (screen.height - this.getHeight() >> 1) - gameConfigRead.getFrameConfig().getWindowUp();
+		int y = (screen.height - this.getHeight() >> 1) - frameConfig.getWindowUp();
 		this.setLocation(x, y);
 		this.setContentPane(panelGame);;
 		this.setVisible(true);

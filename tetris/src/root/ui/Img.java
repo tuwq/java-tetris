@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import root.config.GameConfigRead;
+
 public class Img {
 	
 	private Img(){};
@@ -59,6 +61,7 @@ public class Img {
 	 * 下一个方块图片数组
 	 */
 	public static Image[] NEXT_ACT;
+	private static final int ACT_RECT_LENGTH = GameConfigRead.getSystemConfig().getRects().size();
 	/**
 	 * 背景图片数组
 	 */
@@ -69,7 +72,7 @@ public class Img {
 	 * 初始化背景图片目录
 	 */
 	static {
-		NEXT_ACT = new Image[7];
+		NEXT_ACT = new Image[ACT_RECT_LENGTH];
 		for (int i = 0; i < NEXT_ACT.length; i++) {
 			NEXT_ACT[i] = new ImageIcon("graphics/default/game/"+ i +".png").getImage();
 		}

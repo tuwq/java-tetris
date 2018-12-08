@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import root.dao.DataDao;
@@ -19,8 +20,11 @@ import root.dto.PlayerDto;
  */
 public class DataDiskDaoImpl implements DataDao {
 
-	private static final String FILE_PATH = "data/diskRecode.dat"; 
+	private final String filePath; 
 	
+	public DataDiskDaoImpl(HashMap<String, String> paramMap) {
+		this.filePath = paramMap.get("filePath");
+	}
 	/**
 	 * 读取玩家记录
 	 */
@@ -30,7 +34,7 @@ public class DataDiskDaoImpl implements DataDao {
 		ObjectInputStream ois = null;
 		List<PlayerDto> players = null;
 		try {
-			ois = new ObjectInputStream(new FileInputStream(new File(FILE_PATH)));
+			ois = new ObjectInputStream(new FileInputStream(new File(filePath)));
 			players = (List<PlayerDto>) ois.readObject();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,7 +58,7 @@ public class DataDiskDaoImpl implements DataDao {
 		players.add(playerDto);
 		ObjectOutputStream oos = null;
 		try {
-			oos = new ObjectOutputStream(new FileOutputStream(new File(FILE_PATH)));
+			oos = new ObjectOutputStream(new FileOutputStream(new File(filePath)));
 			oos.writeObject(players);
 		} catch (IOException e) {
 			e.printStackTrace();

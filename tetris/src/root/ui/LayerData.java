@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.List;
 
+import root.config.GameConfigRead;
 import root.dto.PlayerDto;
 import root.ui.layer.Layer;
 
@@ -12,8 +13,9 @@ import root.ui.layer.Layer;
  * @author tuwq
  */
 public abstract class LayerData extends Layer {
-
-	private static final int MAX_ROW = 5;
+	
+	// 最大数据行 
+	private static final int MAX_ROW = GameConfigRead.getDataConfig().getMaxRow();
 	// 起始Y坐标
 	private static int START_Y = 0;
 	// 值槽间距

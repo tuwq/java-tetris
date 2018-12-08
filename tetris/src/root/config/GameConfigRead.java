@@ -12,31 +12,38 @@ import org.dom4j.io.SAXReader;
 public class GameConfigRead {
 	
 	// 窗口配置
-	private FrameConfig frameConfig;
+	private static FrameConfig FRAME_CONFIG;
 	// 系统配置
-	private SystemConfig systemConfig;
+	private static SystemConfig SYSTEM_CONFIG;
 	// 数据配置
-	private DataConfig dataConfig;
+	private static DataConfig DATA_CONFIG;
+
+	static {
+		try {
+			SAXReader read = new SAXReader();
+			Document doc = read.read("config/cfg.xml");
+			Element game = doc.getRootElement();
+			FRAME_CONFIG = new FrameConfig(game.element("frame"));
+			SYSTEM_CONFIG = new SystemConfig(game.element("system"));
+			DATA_CONFIG = new DataConfig(game.element("data"));
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
-	public GameConfigRead() throws DocumentException {
-		SAXReader read = new SAXReader();
-		Document doc = read.read("config/cfg.xml");
-		Element game = doc.getRootElement();
-		frameConfig = new FrameConfig(game.element("frame"));
-		systemConfig = new SystemConfig(game.element("system"));
-		dataConfig = new DataConfig(game.element("data"));
+	private GameConfigRead() {};
+
+	public static FrameConfig getFrameConfig() {
+		return FRAME_CONFIG;
 	}
 
-	public FrameConfig getFrameConfig() {
-		return frameConfig;
+	public static SystemConfig getSystemConfig() {
+		return SYSTEM_CONFIG;
 	}
 
-	public SystemConfig getSystemConfig() {
-		return systemConfig;
-	}
-
-	public DataConfig getDataConfig() {
-		return dataConfig;
+	public static DataConfig getDataConfig() {
+		return DATA_CONFIG;
 	}
 
 }

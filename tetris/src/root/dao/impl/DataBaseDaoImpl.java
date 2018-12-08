@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import root.dao.DataDao;
@@ -16,20 +17,21 @@ import root.dto.PlayerDto;
  */
 public class DataBaseDaoImpl implements DataDao {
 	
-	// mysql5.7
-	// private static String driverClassName = "com.mysql.jdbc.Driver";
-	// private static String url = "jdbc:mysql://127.0.0.1:3306/tetris?characterEncoding=UTF-8&useSSL=false";
-	// mysql8.0
-	private String driverClassName = "com.mysql.cj.jdbc.Driver";
-	private String url = "jdbc:mysql://127.0.0.1:3306/tetris?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8";
-	private String username = "root";
-	private String password = "1234";
-	private final String LOAD_DATA_SQL = "SELECT user_name, point FROM user_point ORDER BY point desc LIMIT 5";
-	private final String SAVE_DATA_SQL = "INSERT INTO user_point(user_name,point) values(?,?)";
+	private final String driver ;
+	private final String url;
+	private final String username;
+	private final String password;
+	private static final String LOAD_DATA_SQL = "SELECT user_name, point FROM user_point ORDER BY point desc LIMIT 5";
+	private static final String SAVE_DATA_SQL = "INSERT INTO user_point(user_name,point) values(?,?)";
+
 	
-	public DataBaseDaoImpl() {
+	public DataBaseDaoImpl(HashMap<String, String> paramMap) {
+		this.driver = paramMap.get("driver");
+		this.url = paramMap.get("url");
+		this.username = paramMap.get("username");
+		this.password = paramMap.get("password");
 		try {
-			Class.forName(driverClassName);
+			Class.forName(driver);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import root.config.GameConfigRead;
 import root.model.GameAct;
 /**
  * 游戏数据传输对象
  * @author tuwq
  */
 public class GameDto {
+	private static final int GAMEZONE_W = GameConfigRead.getSystemConfig().getMaxX() + 1;
+	private static final int GAMEZONE_H = GameConfigRead.getSystemConfig().getMaxY() + 1;
 	/**
 	 * 数据库数据
 	 */
@@ -52,8 +55,7 @@ public class GameDto {
 	 * 初始化所有游戏对象
 	 */
 	public void gameDtoInit() {
-		// TODO 配置
-		this.gameMap = new boolean[10][18];
+		this.gameMap = new boolean[GAMEZONE_W][GAMEZONE_H];
 	}
 	
 	public List<PlayerDto> setFillRecode(List<PlayerDto> players) {
