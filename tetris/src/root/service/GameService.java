@@ -1,9 +1,11 @@
 package root.service;
 
 import java.awt.Point;
+import java.util.List;
 import java.util.Random;
 
 import root.dto.GameDto;
+import root.dto.PlayerDto;
 import root.model.GameAct;
 
 /**
@@ -82,4 +84,11 @@ public class GameService {
 		this.gameDto.setNowRemoveLine(rmline);
 	}
 	
+	public void setDbRecode(List<PlayerDto> players) {
+		this.gameDto.setDbRecode(players);
+	}
+	
+	public void setDiskRecode(List<PlayerDto> players) {
+		this.gameDto.setDiskRecode(players);
+	}
 }

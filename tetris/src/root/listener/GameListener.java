@@ -1,5 +1,8 @@
 package root.listener;
 
+import root.dao.DataDao;
+import root.dao.impl.DataTestDao;
+import root.dao.impl.DataDiskDaoImpl;
 import root.service.GameService;
 import root.ui.PanelGame;
 
@@ -15,10 +18,20 @@ public class GameListener {
 	private PanelGame panelGame;
 	// 游戏逻辑业务层
 	private GameService gameService;
+	// 数据访问-数据库
+	private DataDao dataBaseDao;
+	// 数据访问-本地磁盘
+	private DataDao diskDao;
+	// 数据访问-测试
+	private DataDao dataTest;
 	
 	public GameListener(PanelGame panelGame, GameService gameService) {
 		this.panelGame = panelGame;
 		this.gameService = gameService;
+		this.dataTest = new DataTestDao();
+		this.diskDao = new DataDiskDaoImpl();
+		this.gameService.setDbRecode(this.dataTest.loadData());
+		this.gameService.setDiskRecode(this.diskDao.loadData());
 	}
 	
 	/**

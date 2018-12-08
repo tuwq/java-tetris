@@ -1,5 +1,7 @@
 package root.dto;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import root.model.GameAct;
@@ -54,20 +56,31 @@ public class GameDto {
 		this.gameMap = new boolean[10][18];
 	}
 	
+	public List<PlayerDto> setFillRecode(List<PlayerDto> players) {
+		if (players == null) {
+			players = new ArrayList<PlayerDto>();
+		}
+		while(players.size() < 5) {
+			players.add(new PlayerDto("NoData", 0));
+		}
+		Collections.sort(players);
+		return players;
+	}
+	
 	public List<PlayerDto> getDbRecode() {
 		return dbRecode;
 	}
 
 	public void setDbRecode(List<PlayerDto> dbRecode) {
-		this.dbRecode = dbRecode;
+		this.dbRecode = this.setFillRecode(dbRecode);
 	}
-
+	
 	public List<PlayerDto> getDiskRecode() {
 		return diskRecode;
 	}
 
 	public void setDiskRecode(List<PlayerDto> diskRecode) {
-		this.diskRecode = diskRecode;
+		this.diskRecode = this.setFillRecode(diskRecode);
 	}
 
 	public boolean[][] getGameMap() {

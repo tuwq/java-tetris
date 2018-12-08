@@ -43,10 +43,9 @@ public abstract class Layer {
 	 */
 	protected static final int IMG_NUMBER_H = Img.NUMBER.getHeight(null);
 	
-	private static final int IMG_RECT_H = Img.RECT.getHeight(null);
-	private static final int IMG_RECT_W = Img.RECT.getWidth(null);
+	protected static final int IMG_RECT_H = Img.RECT.getHeight(null);
+	protected static final int IMG_RECT_W = Img.RECT.getWidth(null);
 	private static final Font DEF_FONT = new Font("黑体", Font.BOLD, 20);
-	// this.expW = 
 	
 	protected int x;
 	
@@ -55,7 +54,7 @@ public abstract class Layer {
 	protected int w;
 	
 	protected int h;
-
+	
 	public Layer(int x, int y, int w, int h) {
 		this.x = x;
 		this.y = y;
@@ -82,11 +81,10 @@ public abstract class Layer {
 	 * @param expY 值槽的y坐标
 	 * @param title 值槽左内容
 	 * @param number 值槽右内容
-	 * @param value 当前值
-	 * @param maxValue 最大值
+	 * @param percentage 当前值/最大值的比值
 	 * @param g 画笔
 	 */
-	protected void drawRect(int expW, int expY, String title, String number, double value, double maxValue, Graphics g) {
+	protected void drawRect(int expW, int expY, String title, String number, double percentage, Graphics g) {
 		int rect_x = this.x + (PADDING << 1);
 		int rect_y = this.y + expY;
 		// 绘制背景
@@ -97,9 +95,8 @@ public abstract class Layer {
 		g.setColor(Color.BLACK);
 		g.fillRect(rect_x + 2, rect_y + 2, expW - 4, IMG_RECT_H);
 		// 绘制值槽
-		double percentage = value / maxValue;
 		int w = (int)((percentage * (expW - 4 )));
-		int subIdx = (int)(percentage * IMG_RECT_W);
+		int subIdx = (int)(percentage * IMG_RECT_W) - 1;
 		g.drawImage(Img.RECT,
 				rect_x + 2, rect_y + 2,
 				rect_x + 2 + w, rect_y + 2 + IMG_RECT_H, 
@@ -109,7 +106,7 @@ public abstract class Layer {
 		g.setFont(DEF_FONT);
 		g.drawString(title, rect_x + 4, rect_y + 22);
 		if (number != null) {
-			
+			g.drawString(number, rect_x + 248, rect_y + 22);
 		}
 	}
 	

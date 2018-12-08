@@ -1,6 +1,9 @@
 package root.dto;
 
-public class PlayerDto {
+import java.io.Serializable;
+import java.util.Comparator;
+
+public class PlayerDto implements Comparable<PlayerDto>, Serializable {
 	
 	private String name;
 	
@@ -27,6 +30,10 @@ public class PlayerDto {
 	public void setPoint(int point) {
 		this.point = point;
 	}
-	
+
+	@Override
+	public int compareTo(PlayerDto o) {
+		return o.point - this.point;
+	}
 	
 }
