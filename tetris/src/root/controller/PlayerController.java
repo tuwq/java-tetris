@@ -20,7 +20,6 @@ public class PlayerController extends KeyAdapter {
 
 	/**
 	 * 玩家键盘按下事件
-	 * 87 83 65 68
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
