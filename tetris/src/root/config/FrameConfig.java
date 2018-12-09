@@ -20,10 +20,12 @@ public class FrameConfig {
 	private final String title;
 	private final int windowUp;
 	private final int sizeRol;
-	// 游戏失败图片
+	// 游戏失败方块图片编号
 	private final int loseIdx;
 	
-	private List<LayerConfigModel> layersConfigModelList;
+	private final List<LayerConfigModel> layersConfigModelList;
+	
+	private final FrameButtonConfig frameButtonConfig;
 	
 	public FrameConfig(Element frame) {
 		this.width = Integer.parseInt(frame.attributeValue("width"));
@@ -43,6 +45,7 @@ public class FrameConfig {
 					Integer.parseInt(layer.attributeValue("w")),Integer.parseInt(layer.attributeValue("h")));
 			layersConfigModelList.add(layerConfigModel);
 		}
+		this.frameButtonConfig = new FrameButtonConfig(frame.element("button"));
 	}
 
 	public int getWidth() {
@@ -79,6 +82,10 @@ public class FrameConfig {
 
 	public int getLoseIdx() {
 		return loseIdx;
+	}
+
+	public FrameButtonConfig getFrameButtonConfig() {
+		return frameButtonConfig;
 	}
 	
 }

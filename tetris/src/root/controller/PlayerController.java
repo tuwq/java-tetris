@@ -26,4 +26,6 @@ public class PlayerController extends KeyAdapter {
 		this.gameListener.actionByKeyCode(e.getKeyCode());
 	}
 	
+	
+	
 }

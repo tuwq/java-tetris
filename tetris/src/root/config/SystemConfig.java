@@ -2,7 +2,9 @@ package root.config;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.dom4j.Element;
 
@@ -24,8 +26,10 @@ public class SystemConfig {
 	private final int levelUp;
 	
 	private final List<Point[]> rects;
-	
+	// 方块是否旋转的映射数组
 	private final List<Boolean> rectRounds;
+	// 成功消行的对应分数
+	private final Map<Integer, Integer> plusPointMap;
 	
 	public SystemConfig(Element system) {
 		this.minX = Integer.parseInt(system.attributeValue("minX"));
@@ -46,6 +50,13 @@ public class SystemConfig {
 				points[i] = new Point(x, y);
 			}
 			this.rects.add(points);
+		}
+		this.plusPointMap = new HashMap<Integer, Integer>();
+		List<Element> plusPointElements = system.elements("plusPoint");
+		for (Element plusPointElement: plusPointElements) {
+			int rm = Integer.parseInt(plusPointElement.attributeValue("rm"));
+			int score = Integer.parseInt(plusPointElement.attributeValue("score"));
+			this.plusPointMap.put(rm, score);
 		}
 	}
 
@@ -75,6 +86,10 @@ public class SystemConfig {
 
 	public List<Boolean> getRectRounds() {
 		return rectRounds;
+	}
+
+	public Map<Integer, Integer> getPlusPointMap() {
+		return plusPointMap;
 	}
 	
 }

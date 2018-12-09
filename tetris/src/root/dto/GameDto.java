@@ -11,8 +11,9 @@ import root.model.GameAct;
  * @author tuwq
  */
 public class GameDto {
-	private static final int GAMEZONE_W = GameConfigRead.getSystemConfig().getMaxX() + 1;
-	private static final int GAMEZONE_H = GameConfigRead.getSystemConfig().getMaxY() + 1;
+	// 游戏地图范围
+	public static final int GAMEZONE_W = GameConfigRead.getSystemConfig().getMaxX() + 1;
+	public static final int GAMEZONE_H = GameConfigRead.getSystemConfig().getMaxY() + 1;
 	/**
 	 * 数据库数据
 	 */

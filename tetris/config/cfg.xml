@@ -3,6 +3,10 @@
 	<!-- 游戏主窗口的配置 -->
 	<frame title="Java俄罗斯方块" width="1168" height="680" 
 		border="7" padding="7" windowUp="32" sizeRol="5" loseIdx="8">
+		<button w="105" h="40" >
+			<start x="820" y="74"/>
+			<setting x="965" y="74"/>
+		</button>
 		<!--视图层类的显示位置配置  -->
 		<layer className="root.ui.layer.LayerBackground" x="0" y="0" w="0" h="0"/>
 		<layer className="root.ui.layer.LayerDataBase" x="40" y="32" w="334" h="279"/>
@@ -39,6 +43,11 @@
 		<rect round="true">
 			<point x="4" y="0" /><point x="3" y="0" /><point x="4" y="1" /><point x="5" y="1" />
 		</rect>
+		<!-- 成功消行数量的得分,渐进  -->
+		<plusPoint rm="1" score="10" />
+		<plusPoint rm="2" score="30" />
+		<plusPoint rm="3" score="50" />
+		<plusPoint rm="4" score="80" />
 	</system>
 	<!-- 记录存储的数据源 -->
 	<!-- openDataBase: 是否开启数据库连接,开启需要修改正确的数据源且创建数据表 -->

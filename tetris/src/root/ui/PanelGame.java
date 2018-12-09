@@ -47,17 +47,59 @@ public class PanelGame extends JPanel {
 	// 游戏数据对象
 	private GameDto gameDto = null;
 	
+	private JButton btnStart;
+	
+	private JButton btnSetting;
+	
+	private static final int BTN_SIZE_W = GameConfigRead.getFrameConfig().getFrameButtonConfig().getButtonW();
+	private static final int BTN_SIZE_H = GameConfigRead.getFrameConfig().getFrameButtonConfig().getButtonH();
 	/**
+	 * 初始化按钮
 	 * 初始化组件
 	 * 初始化视图层
 	 * @param gameDto 
 	 */
 	public PanelGame(GameDto gameDto) {
 		this.gameDto = gameDto;
-		this.initComponent();
 		this.initLayers();
+		this.initButton();
 	}
 	
+	/**
+	 * 初始化开始和设置按钮
+	 */
+	private void initButton() {
+		this.setLayout(null);
+		this.btnStart = new JButton(Img.BTN_START);
+		btnStart.setBounds(
+				GameConfigRead.getFrameConfig().getFrameButtonConfig().getStartX(), 
+				GameConfigRead.getFrameConfig().getFrameButtonConfig().getStartY(), 
+				BTN_SIZE_W, BTN_SIZE_H);
+		this.add(btnStart);
+		btnStart.setContentAreaFilled(false);
+		btnStart.setBorder(null);
+		this.btnSetting = new JButton(Img.BTN_SETTING);
+		btnSetting.setBounds(
+				GameConfigRead.getFrameConfig().getFrameButtonConfig().getSettingX(), 
+				GameConfigRead.getFrameConfig().getFrameButtonConfig().getSettingY(),
+				BTN_SIZE_W, BTN_SIZE_H);
+		this.add(btnSetting);
+		btnSetting.setContentAreaFilled(false);
+		btnSetting.setBorder(null);
+		this.btnStart.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		this.btnSetting.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+	}
+
 	/**
 	 * 设置玩家控制器
 	 */
@@ -65,15 +107,6 @@ public class PanelGame extends JPanel {
 		this.addKeyListener(playerController);
 	}
 	
-	/**
-	 * 初始化组件
-	 * 游戏监听器
-	 * 玩家控制器
-	 */
-	private void initComponent() {
-		
-	}
-
 	/**
 	 * 初始化视图层
 	 * 读取配置文件

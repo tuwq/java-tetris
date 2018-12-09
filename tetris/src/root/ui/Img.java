@@ -58,6 +58,14 @@ public class Img {
 	 */
 	public static Image RECT = new ImageIcon("graphics/default/window/rect.png").getImage();
 	/**
+	 * 开始标题
+	 */
+	public static ImageIcon BTN_START = new ImageIcon("graphics/default/string/start.png");
+	/**
+	 * 设置标题
+	 */
+	public static ImageIcon BTN_SETTING = new ImageIcon("graphics/default/string/setting.png");
+	/**
 	 * 下一个方块图片数组
 	 */
 	public static Image[] NEXT_ACT;
