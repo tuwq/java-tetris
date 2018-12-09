@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.swing.plaf.basic.BasicSliderUI.ActionScroller;
+
 import root.config.GameConfigRead;
 import root.dto.GameDto;
 import root.dto.PlayerDto;
@@ -20,8 +22,8 @@ public class GameService {
 	private GameDto gameDto;
 	// 随机数生成器
 	private Random random = new Random();
-	// 方块种类个数  + 1(下标)
-	private static final int MAX_ACT_TYPE = 6;
+	// 方块种类个数
+	private static final int MAX_ACT_TYPE = GameConfigRead.getSystemConfig().getRects().size() - 1;
 	// 升级行数
 	private static final int LEVEL_UP = GameConfigRead.getSystemConfig().getLevelUp();
 	// 成功消行得分表
@@ -29,15 +31,16 @@ public class GameService {
 	
 	public GameService(GameDto gameDto) {
 		this.gameDto = gameDto;
-		GameAct gameAct = new GameAct(random.nextInt(MAX_ACT_TYPE));
-		gameDto.setGameAct(gameAct);
 	}
 
 	/**
 	 * 方向键上
 	 */
-	public void keyUp() {
-		this.gameDto.getGameAct().round(this.gameDto.getGameMap());
+	public boolean keyUp() {
+		synchronized(this.gameDto) {
+			this.gameDto.getGameAct().round(this.gameDto.getGameMap());
+		}
+		return true;
 	}
 
 	/**
@@ -49,23 +52,53 @@ public class GameService {
 	 * 能否升级
 	 * 创建下一个方块
 	 * 随机生成再一下方块
+	 * 是否失败
 	 */
-	public void keyDown() {
-		if(this.gameDto.getGameAct().move(0, 1, this.gameDto.getGameMap())) {
-			return;
+	public boolean keyDown() {
+		synchronized(this.gameDto) {
+			if(this.gameDto.getGameAct().move(0, 1, this.gameDto.getGameMap())) {
+				return false;
+			}
+			boolean[][] gameMap = this.gameDto.getGameMap();
+			Point[] actPoints = this.gameDto.getGameAct().getActPoints();
+			for (int i = 0; i < actPoints.length; i++) {
+				gameMap[actPoints[i].x][actPoints[i].y] = true;
+			}
+			
+			int removeLineNumber = this.getRemoveLineNumber();
+			if (removeLineNumber > 0) {
+				this.plusPoint(removeLineNumber);
+			}
+			this.gameDto.getGameAct().init(this.gameDto.getNext());
+			this.gameDto.setNext(random.nextInt(MAX_ACT_TYPE));
+			if (this.checkLose()) {
+				this.afterLose();
+			}
 		}
+		return true;
+	}
+	
+	/**
+	 * 游戏失败后的处理
+	 */
+	private void afterLose() {
+		this.gameDto.setStart(false);
+	}
+
+	/**
+	 * 检查游戏是否失败
+	 * 获得现在的活动方块
+	 * 获得现在得游戏地图
+	 */
+	private boolean checkLose() {
+		Point[] actionPoints = this.gameDto.getGameAct().getActPoints();
 		boolean[][] gameMap = this.gameDto.getGameMap();
-		Point[] actPoints = this.gameDto.getGameAct().getActPoints();
-		for (int i = 0; i < actPoints.length; i++) {
-			gameMap[actPoints[i].x][actPoints[i].y] = true;
+		for (int i = 0; i < actionPoints.length; i++) {
+			if (gameMap[actionPoints[i].x][actionPoints[i].y]) {
+				return true;
+			}
 		}
-		
-		int removeLineNumber = this.getRemoveLineNumber();
-		if (removeLineNumber > 0) {
-			this.plusPoint(removeLineNumber);
-		}
-		this.gameDto.getGameAct().init(this.gameDto.getNext());
-		this.gameDto.setNext(random.nextInt(MAX_ACT_TYPE));
+		return false;
 	}
 
 	/**
@@ -97,15 +130,21 @@ public class GameService {
 	/**
 	 * 方向键左
 	 */
-	public void keyLeft() {
-		this.gameDto.getGameAct().move(-1, 0, this.gameDto.getGameMap());
+	public boolean keyLeft() {
+		synchronized(this.gameDto) {
+			this.gameDto.getGameAct().move(-1, 0, this.gameDto.getGameMap());
+		}
+		return true;
 	}
 
 	/**
 	 * 方向键右
 	 */
-	public void keyRight() {
-		this.gameDto.getGameAct().move(1, 0, this.gameDto.getGameMap());
+	public boolean keyRight() {
+		synchronized(this.gameDto) {
+			this.gameDto.getGameAct().move(1, 0, this.gameDto.getGameMap());
+		}
+		return true;
 	}
 	
 	/**
@@ -155,25 +194,42 @@ public class GameService {
 
 	// TODO 测试等级提升
 	public void testLevelUp() {
-		int point = this.gameDto.getNowPoint();
-		int rmline = this.gameDto.getNowRemoveLine();
-		int level = this.gameDto.getNowLevel();
-		point+=10;
-		rmline+=1;
-		if (rmline % 20 == 0) {
-			level += 1;
-		}
-		this.gameDto.setNowPoint(point);
-		this.gameDto.setNowLevel(level);
-		this.gameDto.setNowRemoveLine(rmline);
+		this.plusPoint(6);
+	}
+	/**
+	 * 瞬间下落
+	 */
+	public void momentDown() {
+		while(!this.keyDown());
+	}
+	/**
+	 * 阴影开关
+	 */
+	public void switchShadow() {
+		this.gameDto.switchShowShadow();
 	}
 	
-	public void setDbRecode(List<PlayerDto> players) {
-		this.gameDto.setDbRecode(players);
+	/**
+	 * 暂停开关
+	 */
+	public void switchPause() {
+		
+	}
+
+	/**
+	 * 开始游戏
+	 */
+	public void startGame() {
+		this.gameDto.setNext(random.nextInt(MAX_ACT_TYPE));
+		GameAct gameAct = new GameAct(random.nextInt(MAX_ACT_TYPE));
+		this.gameDto.setGameAct(gameAct);
+		this.gameDto.setStart(true);
 	}
 	
-	public void setDiskRecode(List<PlayerDto> players) {
-		this.gameDto.setDiskRecode(players);
+	/**
+	 * 游戏主要行为动作
+	 */
+	public void mainAction() {
+		this.keyDown();
 	}
-	
 }

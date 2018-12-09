@@ -46,6 +46,14 @@ public class GameDto {
 	 * 当前消行数量
 	 */
 	private int nowRemoveLine;
+	/**
+	 * 游戏是否开始状态
+	 */
+	private boolean start;
+	/**
+	 * 是否显示阴影
+	 */
+	private boolean showShadow = true;
 
 	public GameDto() {
 		this.gameDtoInit();
@@ -134,6 +142,21 @@ public class GameDto {
 	public void setNowRemoveLine(int nowRemoveLine) {
 		this.nowRemoveLine = nowRemoveLine;
 	}
-	
+
+	public boolean isStart() {
+		return start;
+	}
+
+	public void setStart(boolean start) {
+		this.start = start;
+	}
+
+	public boolean isShowShadow() {
+		return showShadow;
+	}
+
+	public void switchShowShadow() {
+		this.showShadow = !this.showShadow;
+	}
 	
 }

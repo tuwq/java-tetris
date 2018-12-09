@@ -25,7 +25,12 @@ public class PlayerController extends KeyAdapter {
 	public void keyPressed(KeyEvent e) {
 		this.gameListener.actionByKeyCode(e.getKeyCode());
 	}
-	
-	
+
+	/**
+	 * 开始游戏
+	 */
+	public void start() {
+		this.gameListener.start();
+	}
 	
 }

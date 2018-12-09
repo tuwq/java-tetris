@@ -43,9 +43,9 @@ import root.ui.layer.LayerPoint;
 public class PanelGame extends JPanel {
 	
 	// 视图层列表
-	private List<Layer> layers = null;
-	// 游戏数据对象
-	private GameDto gameDto = null;
+	private List<Layer> layers;
+	// 玩家操作控制器
+	private PlayerController playerController;
 	
 	private JButton btnStart;
 	
@@ -57,11 +57,9 @@ public class PanelGame extends JPanel {
 	 * 初始化按钮
 	 * 初始化组件
 	 * 初始化视图层
-	 * @param gameDto 
 	 */
 	public PanelGame(GameDto gameDto) {
-		this.gameDto = gameDto;
-		this.initLayers();
+		this.initLayers(gameDto);
 		this.initButton();
 	}
 	
@@ -89,7 +87,7 @@ public class PanelGame extends JPanel {
 		this.btnStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				playerController.start();
 			}
 		});
 		this.btnSetting.addActionListener(new ActionListener() {
@@ -99,12 +97,22 @@ public class PanelGame extends JPanel {
 			}
 		});
 	}
+	
+	/**
+	 * 控制按钮是否可点击
+	 * @param on
+	 */
+	public void buttonSwitch(boolean onOff) {
+		this.btnStart.setEnabled(onOff);
+		this.btnSetting.setEnabled(onOff);
+	}
 
 	/**
 	 * 设置玩家控制器
 	 */
 	public void setPlayerController(PlayerController playerController) {
-		this.addKeyListener(playerController);
+		this.playerController = playerController;
+		this.addKeyListener(this.playerController);
 	}
 	
 	/**
@@ -112,7 +120,7 @@ public class PanelGame extends JPanel {
 	 * 读取配置文件
 	 * 反射创建视图层
 	 */
-	private void initLayers() {
+	private void initLayers(GameDto gameDto) {
 		try {
 			FrameConfig frameConfig = GameConfigRead.getFrameConfig();
 			List<LayerConfigModel> layersConfigModelList = frameConfig.getLayersConfigModelList();
@@ -121,7 +129,7 @@ public class PanelGame extends JPanel {
 				Class<?> c = Class.forName(layerConfigModel.getClassName());
 				Constructor<?> ctr = c.getConstructor(int.class, int.class, int.class, int.class);
 				Layer layer = (Layer) ctr.newInstance(layerConfigModel.getX(), layerConfigModel.getY(), layerConfigModel.getW(), layerConfigModel.getH());
-				layer.setGameDto(this.gameDto);
+				layer.setGameDto(gameDto);
 				layers.add(layer);
 			}
 		} catch (Exception e) {

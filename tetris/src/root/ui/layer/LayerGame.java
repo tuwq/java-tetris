@@ -17,50 +17,65 @@ public class LayerGame extends Layer {
 	private static final int ACT_SIZE_ROL = GameConfigRead.getFrameConfig().getSizeRol();
 	private static final int LEFT_SIDE = GameConfigRead.getSystemConfig().getMinX();
 	private static final int RIGHT_SIDE = GameConfigRead.getSystemConfig().getMaxX();
+	private static final int LOSE_IDX = GameConfigRead.getFrameConfig().getLoseIdx();
 	
 	public LayerGame(int x, int y, int w, int h) {
 		super(x, y, w, h);
 	}
 	
 	/**
-	 * 打印方块
-	 * 打印地图
+	 * 绘制方块
+	 * 绘制地图
 	 * 绘制阴影
 	 * 根据方块编号渲染颜色
 	 * 渲染堆积方块的颜色
 	 */
 	public void paintWindow(Graphics g) {
 		this.createWindow(g);
-		Point[] actPoints = this.gameDto.getGameAct().getActPoints();
-		if (true) {
-			this.drawShadow(actPoints, true, g);
+		GameAct act = this.gameDto.getGameAct();
+		if (act != null) {
+			Point[] actPoints = act.getActPoints();
+			this.drawShadow(actPoints, g);
+			this.drawMainAct(actPoints, g);
 		}
+		this.drawGameMap(g);
+	}
+	
+	/**
+	 * 绘制活动方块
+	 * @param g
+	 */
+	private void drawMainAct(Point[] actPoints, Graphics g) {
 		int typeCode = this.gameDto.getGameAct().getTypeCode();
 		for (int i = 0; i < actPoints.length; i++) {
 			this.drawActByPoint(actPoints[i].x, actPoints[i].y, typeCode + 1, g);
 		}
+	}
+	
+	/**
+	 * 绘制地图
+	 * @param g
+	 */
+	private void drawGameMap(Graphics g) {
 		boolean[][] gameMap = this.gameDto.getGameMap();
 		int nowLevel = this.gameDto.getNowLevel();
-		int imgIndex1 = nowLevel == 0 ? nowLevel : (nowLevel - 1) % 7 + 1;
-		
+		int imgIndex = nowLevel == 0 ? nowLevel : (nowLevel - 1) % 7 + 1;
 		for (int x = 0; x < gameMap.length; x++) {
 			for (int y = 0; y < gameMap[x].length; y++) {
 				if (gameMap[x][y]) {
-					this.drawActByPoint(x, y, imgIndex1, g);
+					this.drawActByPoint(x, y, imgIndex, g);
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * 绘制阴影
 	 * @param actPoints
 	 * @param b
 	 */
-	private void drawShadow(Point[] actPoints, boolean isShowShadow, Graphics g) {
-		if (!isShowShadow) {
-			return;
-		}
+	private void drawShadow(Point[] actPoints, Graphics g) {
+		if(!this.gameDto.isShowShadow()) { return;}
 		int leftX = RIGHT_SIDE;
 		int rightX = LEFT_SIDE;
 		for(Point p : actPoints) {
@@ -76,13 +91,14 @@ public class LayerGame extends Layer {
 	}
 
 	/**
-	 * 绘制正方形块
+	 * 绘制方块
 	 * @param x
 	 * @param y
 	 * @param imgIdx
 	 * @param g
 	 */
 	private void drawActByPoint(int x, int y, int imgIdx, Graphics g) {
+		imgIdx = this.gameDto.isStart()?imgIdx:LOSE_IDX;
 		g.drawImage(Img.ACT, 
 				this.x + (x << ACT_SIZE_ROL) + 7, 
 				this.y + (y << ACT_SIZE_ROL) + 7, 

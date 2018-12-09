@@ -15,7 +15,9 @@ public class LayerNext extends Layer {
 	 */
 	public void paintWindow(Graphics g) {
 		this.createWindow(g);
-		this.drawImageAtCenter(Img.NEXT_ACT[this.gameDto.getNext()], g);
+		if (this.gameDto.isStart()) {
+			this.drawImageAtCenter(Img.NEXT_ACT[this.gameDto.getNext()], g);
+		}
 	}
 	
 }
