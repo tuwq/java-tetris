@@ -93,7 +93,7 @@ public class PanelGame extends JPanel {
 		this.btnSetting.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				playerController.showSettingFrame();
 			}
 		});
 	}

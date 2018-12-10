@@ -52,7 +52,7 @@ public class LayerPoint extends Layer {
 		g.drawImage(Img.RELINE, this.x + PADDING, this.y + rmlineY, null);
 		this.drawNumber(comX, rmlineY + PADDING, this.gameDto.getNowRemoveLine(), POINT_BIT, g);
 		int rmLine = this.gameDto.getNowRemoveLine();
-		this.drawRect(this.expW, this.expY, "下一级", "123", (double)(rmLine % LEVEL_UP)/(double)LEVEL_UP, g);
+		this.drawRect(this.expW, this.expY, "下一级", "", (double)(rmLine % LEVEL_UP)/(double)LEVEL_UP, g);
 	}
 	
 	/**

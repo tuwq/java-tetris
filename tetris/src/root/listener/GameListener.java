@@ -1,13 +1,19 @@
 package root.listener;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import root.config.DataConfig;
 import root.config.GameConfigRead;
 import root.config.model.DataDaoConfigModel;
+import root.contant.GameEnum;
 import root.controller.PlayerController;
 import root.dao.DataDao;
 import root.dto.GameDto;
@@ -16,6 +22,7 @@ import root.service.GameService;
 import root.ui.FrameGame;
 import root.ui.PanelGame;
 import root.ui.setting.SavePointFrame;
+import root.ui.setting.SettingConfigFrame;
 
 /**
  * 游戏监听器
@@ -33,6 +40,8 @@ public class GameListener {
 	private GameDto gameDto;
 	// 游戏保存得分窗口
 	private SavePointFrame savePointFrame;
+	// 玩家设置窗口
+	private SettingConfigFrame settingConfigFrame;
 	// 玩家操作的行为映射
 	private Map<Integer, Method> actionList;
 	// 数据访问-数据库
@@ -43,7 +52,6 @@ public class GameListener {
 	private boolean isOpenDataBase = false;
 	// 游戏方块下落线程
 	private Thread gameThread = null;
-	
 	
 	public GameListener() {
 		DataConfig dataConfig = GameConfigRead.getDataConfig();
@@ -60,22 +68,28 @@ public class GameListener {
 		PlayerController playerController = new PlayerController(this);
 		this.panelGame = new PanelGame(this.gameDto);
 		this.panelGame.setPlayerController(playerController);
-		new FrameGame(this.panelGame);
 		this.savePointFrame = new SavePointFrame(this);
+		this.settingConfigFrame = new SettingConfigFrame(this);
+		this.setControlSetting();
+		new FrameGame(this.panelGame);
 		
-		actionList = new HashMap<Integer, Method>();
+	}
+	
+	/**
+	 * 读取玩家控制设置
+	 */
+	private void setControlSetting() {
+		this.actionList = new HashMap<Integer, Method>();
 		try {
-			actionList.put(87, this.gameService.getClass().getMethod("keyUp"));
-			actionList.put(83, this.gameService.getClass().getMethod("keyDown"));
-			actionList.put(65, this.gameService.getClass().getMethod("keyLeft"));
-			actionList.put(68, this.gameService.getClass().getMethod("keyRight"));
-			actionList.put(38, this.gameService.getClass().getMethod("testLevelUp"));
-			actionList.put(32, this.gameService.getClass().getMethod("momentDown"));
-			actionList.put(76, this.gameService.getClass().getMethod("switchShadow"));
-			actionList.put(10, this.gameService.getClass().getMethod("switchPause"));
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(GameEnum.CONTROL_FILE_PATH.getContent()));
+			HashMap<Integer, String> cfgSet = (HashMap) ois.readObject();
+			Set<Entry<Integer, String>> entrySet = cfgSet.entrySet();
+			for (Entry<Integer, String> e : entrySet) {
+				actionList.put(e.getKey(), this.gameService.getClass().getMethod(e.getValue()));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 	
 	/**
@@ -120,6 +134,7 @@ public class GameListener {
 	public void start() {
 		this.panelGame.buttonSwitch(false);
 		// TODO 关闭其他窗口
+		this.settingConfigFrame.setVisible(false);
 		this.savePointFrame.setVisible(false);
 		this.gameService.startGame();
 		this.gameThread = new Thread(new MainThread());
@@ -176,5 +191,16 @@ public class GameListener {
 	public void afterLose() {
 		this.savePointFrame.showFrame(this.gameDto.getNowPoint());
 		this.panelGame.buttonSwitch(true);
+	}
+
+	public void showSettingFrame() {
+		this.settingConfigFrame.setVisible(true);
+	}
+	/**
+	 * 子窗口关闭事件
+	 */
+	public void setOver() {
+		this.panelGame.repaint();
+		this.setControlSetting();;
 	}
 }

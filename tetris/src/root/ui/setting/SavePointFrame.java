@@ -15,6 +15,10 @@ import javax.swing.JTextField;
 import root.listener.GameListener;
 import root.util.FrameUtils;
 
+/**
+ * 保存分数窗口
+ * @author tuwq
+ */
 public class SavePointFrame extends JFrame {
 
 	private JLabel point;

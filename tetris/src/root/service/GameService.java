@@ -198,9 +198,8 @@ public class GameService {
 		return true;
 	}
 
-	// TODO 测试等级提升
-	public void testLevelUp() {
-		this.plusPoint(4);
+	public void levelUp() {
+		// this.plusPoint(4);
 	}
 	/**
 	 * 瞬间下落

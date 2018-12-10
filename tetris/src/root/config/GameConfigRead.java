@@ -5,6 +5,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import root.contant.GameEnum;
+
 /**
  * 读取游戏配置文件
  * @author tuwq
@@ -21,7 +23,7 @@ public class GameConfigRead {
 	static {
 		try {
 			SAXReader read = new SAXReader();
-			Document doc = read.read("config/cfg.xml");
+			Document doc = read.read(GameEnum.CONFIG_FILE_PATH.getContent());
 			Element game = doc.getRootElement();
 			FRAME_CONFIG = new FrameConfig(game.element("frame"));
 			SYSTEM_CONFIG = new SystemConfig(game.element("system"));

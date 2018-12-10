@@ -32,5 +32,12 @@ public class PlayerController extends KeyAdapter {
 	public void start() {
 		this.gameListener.start();
 	}
+
+	/**
+	 * 显示设置窗口
+	 */
+	public void showSettingFrame() {
+		this.gameListener.showSettingFrame();
+	}
 	
 }
