@@ -37,6 +37,9 @@ public class GameService {
 	 * 方向键上
 	 */
 	public boolean keyUp() {
+		if (this.gameDto.isPause()) {
+			return true;
+		}
 		synchronized(this.gameDto) {
 			this.gameDto.getGameAct().round(this.gameDto.getGameMap());
 		}
@@ -55,6 +58,9 @@ public class GameService {
 	 * 是否失败
 	 */
 	public boolean keyDown() {
+		if (this.gameDto.isPause()) {
+			return true;
+		}
 		synchronized(this.gameDto) {
 			if(this.gameDto.getGameAct().move(0, 1, this.gameDto.getGameMap())) {
 				return false;
@@ -72,17 +78,10 @@ public class GameService {
 			this.gameDto.getGameAct().init(this.gameDto.getNext());
 			this.gameDto.setNext(random.nextInt(MAX_ACT_TYPE));
 			if (this.checkLose()) {
-				this.afterLose();
+				this.gameDto.setStart(false);
 			}
 		}
 		return true;
-	}
-	
-	/**
-	 * 游戏失败后的处理
-	 */
-	private void afterLose() {
-		this.gameDto.setStart(false);
 	}
 
 	/**
@@ -131,6 +130,9 @@ public class GameService {
 	 * 方向键左
 	 */
 	public boolean keyLeft() {
+		if (this.gameDto.isPause()) {
+			return true;
+		}
 		synchronized(this.gameDto) {
 			this.gameDto.getGameAct().move(-1, 0, this.gameDto.getGameMap());
 		}
@@ -141,6 +143,9 @@ public class GameService {
 	 * 方向键右
 	 */
 	public boolean keyRight() {
+		if (this.gameDto.isPause()) {
+			return true;
+		}
 		synchronized(this.gameDto) {
 			this.gameDto.getGameAct().move(1, 0, this.gameDto.getGameMap());
 		}
@@ -194,12 +199,15 @@ public class GameService {
 
 	// TODO 测试等级提升
 	public void testLevelUp() {
-		this.plusPoint(6);
+		// this.plusPoint(4);
 	}
 	/**
 	 * 瞬间下落
 	 */
 	public void momentDown() {
+		if (this.gameDto.isPause()) {
+			return;
+		}
 		while(!this.keyDown());
 	}
 	/**
@@ -213,17 +221,21 @@ public class GameService {
 	 * 暂停开关
 	 */
 	public void switchPause() {
-		
+		if (this.gameDto.isStart()) {
+			this.gameDto.switchPause();
+		}
 	}
 
 	/**
 	 * 开始游戏
+	 * 游戏数据初始化
 	 */
 	public void startGame() {
 		this.gameDto.setNext(random.nextInt(MAX_ACT_TYPE));
 		GameAct gameAct = new GameAct(random.nextInt(MAX_ACT_TYPE));
 		this.gameDto.setGameAct(gameAct);
 		this.gameDto.setStart(true);
+		this.gameDto.dtoInit();
 	}
 	
 	/**

@@ -60,7 +60,7 @@
 			<param key="driver" value="com.mysql.cj.jdbc.Driver"/>
 			<param key="url" value="jdbc:mysql://127.0.0.1:3306/tetris?characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=GMT%2B8"/>
 			<param key="username" value="root"/>
-			<param key="password" value="12345"/>
+			<param key="password" value="1234"/>
 		</dbDaoImpl>
 		<diskDaoImpl className="root.dao.impl.DataDiskDaoImpl">
 			<param key="filePath" value="data/diskRecode.dat"/>

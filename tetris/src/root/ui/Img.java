@@ -58,6 +58,10 @@ public class Img {
 	 */
 	public static Image RECT = new ImageIcon("graphics/default/window/rect.png").getImage();
 	/**
+	 * 暂停标题
+	 */
+	public static Image PAUSE = new ImageIcon("graphics/default/string/pause.png").getImage();
+	/**
 	 * 开始标题
 	 */
 	public static ImageIcon BTN_START = new ImageIcon("graphics/default/string/start.png");

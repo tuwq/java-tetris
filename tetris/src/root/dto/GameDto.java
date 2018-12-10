@@ -54,6 +54,10 @@ public class GameDto {
 	 * 是否显示阴影
 	 */
 	private boolean showShadow = true;
+	/**
+	 * 暂停状态
+	 */
+	private boolean pause;
 
 	public GameDto() {
 		this.gameDtoInit();
@@ -157,6 +161,25 @@ public class GameDto {
 
 	public void switchShowShadow() {
 		this.showShadow = !this.showShadow;
+	}
+
+	public boolean isPause() {
+		return pause;
+	}
+
+	public void switchPause() {
+		this.pause = !this.pause;
+	}
+
+	/**
+	 * 游戏数据初始化
+	 */
+	public void dtoInit() {
+		this.gameMap = new boolean[GAMEZONE_W][GAMEZONE_H];
+		this.nowLevel = 0;
+		this.nowPoint = 0;
+		this.nowRemoveLine = 0;
+		this.pause = false;
 	}
 	
 }
