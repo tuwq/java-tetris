@@ -102,6 +102,7 @@ public class GameService {
 
 	/**
 	 * 加分升级操作
+	 * 加快等级加速
 	 * @param removeLineNumber
 	 */
 	private void plusPoint(int plusExp) {
@@ -199,7 +200,7 @@ public class GameService {
 
 	// TODO 测试等级提升
 	public void testLevelUp() {
-		// this.plusPoint(4);
+		this.plusPoint(4);
 	}
 	/**
 	 * 瞬间下落

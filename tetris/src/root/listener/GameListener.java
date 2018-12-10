@@ -139,7 +139,7 @@ public class GameListener {
 		public void run() {
 			while(gameDto.isStart()) {
 				try {
-					Thread.sleep(500);
+					Thread.sleep(gameDto.getSleepTime());
 					if(gameDto.isPause()) {
 						continue;
 					}

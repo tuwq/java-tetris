@@ -6,6 +6,7 @@ import java.util.List;
 
 import root.config.GameConfigRead;
 import root.model.GameAct;
+import root.util.GameFunction;
 /**
  * 游戏数据传输对象
  * @author tuwq
@@ -58,18 +59,15 @@ public class GameDto {
 	 * 暂停状态
 	 */
 	private boolean pause;
+	/**
+	 * 等级加速毫秒值
+	 */
+	private long sleepTime;
 
 	public GameDto() {
-		this.gameDtoInit();
+		this.dtoInit();
 	}
 	
-	/**
-	 * gameDto初始化
-	 * 初始化所有游戏对象
-	 */
-	public void gameDtoInit() {
-		this.gameMap = new boolean[GAMEZONE_W][GAMEZONE_H];
-	}
 	
 	public List<PlayerDto> setFillRecode(List<PlayerDto> players) {
 		if (players == null) {
@@ -129,6 +127,7 @@ public class GameDto {
 
 	public void setNowLevel(int nowLevel) {
 		this.nowLevel = nowLevel;
+		this.sleepTime = GameFunction.getSleepTimeByLevel(this.nowLevel);
 	}
 
 	public int getNowPoint() {
@@ -171,15 +170,20 @@ public class GameDto {
 		this.pause = !this.pause;
 	}
 
+	public long getSleepTime() {
+		return sleepTime;
+	}
+
 	/**
 	 * 游戏数据初始化
 	 */
 	public void dtoInit() {
 		this.gameMap = new boolean[GAMEZONE_W][GAMEZONE_H];
-		this.nowLevel = 0;
+		this.nowLevel = 1;
 		this.nowPoint = 0;
 		this.nowRemoveLine = 0;
 		this.pause = false;
+		this.sleepTime = GameFunction.getSleepTimeByLevel(1);
 	}
 	
 }
