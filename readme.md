@@ -4,6 +4,7 @@
 1. 需要jdk8及以上运行环境
 2. 支持设置修改操作按键
 3. 连接数据库需要修改cfg.xml
+4. 进入start目录,运行start.bat即可
 
 ## 效果
 ![playing.gif](./showImage/playing.gif)
